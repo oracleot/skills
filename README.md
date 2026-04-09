@@ -2,7 +2,7 @@
 
 Reusable skills that give AI coding agents deep expertise in specific domains. Each skill is a set of markdown files containing structured knowledge, workflows, and patterns that an agent loads on demand.
 
-Works with any AI agent that supports custom instructions or skill files — [OpenCode](https://opencode.ai), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [GitHub Copilot](https://github.com/features/copilot), [Cursor](https://cursor.com), [Windsurf](https://windsurf.com), [Codex](https://openai.com/index/codex/), and others.
+Works with any AI coding agent — [Claude Code](https://claude.ai/code), [OpenCode](https://opencode.ai), [GitHub Copilot](https://github.com/features/copilot), [Cursor](https://cursor.com), [Windsurf](https://codeium.com/windsurf), [Codex](https://openai.com/index/codex/), and others.
 
 ## Skills
 
@@ -10,13 +10,23 @@ Works with any AI agent that supports custom instructions or skill files — [Op
 |---|---|
 | [remotion-remocn-video](./remotion-remocn-video/) | Build production-grade programmatic videos with Remotion v4 and remocn components. Covers project setup, scene composition, animation choreography, visual design, and ad narrative structures. |
 
-## How to Use
+## Installation
 
-Each skill has a `SKILL.md` entry point and optional sub-files for deep-dive topics. You can use them in several ways:
+Install via the [skills.sh](https://skills.sh) CLI — the easiest way to add skills to any agent:
 
-### Copy into your project
+```bash
+npx skills add oracleot/agent-skills
+```
 
-Drop the skill folder into your project's agent configuration directory:
+Or install a single skill:
+
+```bash
+npx skills add oracleot/agent-skills/remotion-remocn-video
+```
+
+### Manual installation
+
+If you prefer to install manually, copy the skill folder into your agent's skills directory:
 
 ```bash
 # OpenCode
@@ -25,21 +35,9 @@ cp -r remotion-remocn-video/ ~/.agents/skills/
 # Claude Code
 cp -r remotion-remocn-video/ ~/.claude/skills/
 
-# Cursor / Windsurf
-# Paste SKILL.md contents into your project's rules or instructions file
+# Cursor / Windsurf / others
+# Paste the contents of SKILL.md into your project rules or custom instructions
 ```
-
-### Reference directly
-
-Point your agent to the raw file URL:
-
-```
-https://raw.githubusercontent.com/oracleot/agent-skills/main/remotion-remocn-video/SKILL.md
-```
-
-### Include in system prompts
-
-Copy the contents of `SKILL.md` (and any sub-files you need) into your agent's system prompt or custom instructions.
 
 ## Structure
 
