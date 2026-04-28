@@ -1,4 +1,4 @@
-# Agent Skills
+# Skills
 
 Reusable skills that give AI coding agents deep expertise in specific domains. Each skill is a set of markdown files containing structured knowledge, workflows, and patterns that an agent loads on demand.
 
@@ -20,7 +20,7 @@ This repository contains essential skills for day-to-day tasks, including learni
 1.  Run the skills.sh installer:
 
 ```bash
-npx skills@latest add oracleot/agent-skills
+npx skills@latest add oracleot/skills
 ```
 
 2.  Pick the skills you want, and which coding agents you want to install them on.
@@ -43,14 +43,14 @@ This repository focuses on skills that address common failure modes in AI-assist
 Install via the [skills.sh](https://skills.sh) CLI — the easiest way to add skills to any agent:
 
 ```bash
-npx skills add oracleot/agent-skills
+npx skills add oracleot/skills
 ```
 
 Or install a single skill:
 
 ```bash
-npx skills add oracleot/agent-skills/adaptive-tutor
-npx skills add oracleot/agent-skills/remotion-remocn-video
+npx skills add oracleot/skills/adaptive-tutor
+npx skills add oracleot/skills/remotion-remocn-video
 ```
 
 ### Manual installation
