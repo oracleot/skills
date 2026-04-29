@@ -1,4 +1,4 @@
-# Skills
+# Agent Skills
 
 Reusable skills that give AI coding agents deep expertise in specific domains. Each skill is a set of markdown files containing structured knowledge, workflows, and patterns that an agent loads on demand.
 
