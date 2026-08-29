@@ -27,6 +27,23 @@ Trace behavior far enough to distinguish implemented capabilities from names, mo
 
 Inspect the product's visual language before designing the Electron shell. Reuse a confidently identified repository logo or product mark where appropriate; otherwise use restrained neutral presentation styling. Keep branding subtle and do not imitate or redraw uncertain assets.
 
+## Resolve the demo target
+
+Favour a verified production URL for live demos unless the user explicitly requests local, preview, staging, or another environment.
+
+Use this precedence:
+
+1. A URL explicitly supplied by the user
+2. The product's verified production URL
+3. A verified hosted preview or staging URL when production is unsuitable
+4. A local development URL only when requested, when no hosted environment exists, or when the feature cannot safely be demonstrated elsewhere
+
+Discover candidate URLs from deployment configuration, repository documentation, hosting metadata, and existing demo configuration. Verify the selected URL is reachable and record redirects, authentication requirements, and the final route before building the Electron browser. Do not silently default to localhost merely because the source repository is local.
+
+When the demonstrated workflow mutates production data, confirm that a designated demo account and safe demo data exist. Otherwise choose a read-only path, use an approved non-production environment, or ask the user for direction. Never use real customer, patient, or other sensitive records for a live demonstration.
+
+Store the selected URL as configurable demo state rather than embedding it throughout the implementation. The default may come from the runbook or configuration, but the audience browser URL must remain editable by the user.
+
 ## Create the canonical runbook
 
 Write the runbook before building presentation UI. Organize it around a realistic user goal and outcome—not a feature inventory. Prefer a reliable 3–5 minute happy path with a small number of meaningful transitions. Add deeper-dive steps only when useful, and keep them out of the default audience flow.
@@ -54,11 +71,13 @@ Maintain one main-process source of truth for the current presentation step and 
 
 Choose an Electron-native browser surface based on the product's authentication, cookies, redirects, local environment, navigation, and security constraints. Do not assume an iframe works. Preserve session state across relevant chapters.
 
+Make the audience surface look and behave like an integrated browser rather than merely an embedded webpage. During product chapters, show browser chrome with Back, Forward, Reload, an editable URL field, and a concise Loading, Live, or Offline state. Include an explicit opening action such as `Open live product` so entering the browser is discoverable without relying only on presentation arrows.
+
 Read [references/electron-and-validation.md](references/electron-and-validation.md) before selecting the browser integration, IPC boundary, window behavior, output structure, or test approach.
 
 ## Complete the work
 
-Provide concise run instructions inside the generated directory. Install dependencies only when authorized and needed. Validate observable behavior in proportion to the environment available; do not claim that the live product flow works if it could not be exercised.
+Provide concise run instructions inside the generated directory. Install dependencies only when authorized and needed. Copy and adapt [scripts/runtime-smoke.cjs](scripts/runtime-smoke.cjs) into the generated demo, preserve its stable test hooks, and run it against the built application. Validate observable behavior in proportion to the environment available; do not claim that the live product flow works if it could not be exercised.
 
 Report:
 

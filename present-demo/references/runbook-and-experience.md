@@ -23,10 +23,16 @@ Each demo step may contain:
 - `expected_result`: specific visible evidence that the action succeeded
 - `audience_takeaway`: the capability or value to emphasize
 - `fallback`: a practical recovery action, alternate input, saved state, or safe skip
+- `target_path`: route to show without duplicating the configurable base URL; presenter-only
+- `required_state`: account, data, and setup that must exist before the step; presenter-only
+- `mutates_data`: whether the action changes hosted data; presenter-only
+- `reset`: how to restore prepared demo data after the step; presenter-only
 
 Omit fields that do not apply. Keep the model structured and shared rather than duplicating content in each renderer.
 
 Derive prompts and expected results from actual implementation and available data. A fallback must be actionable and private. Do not promise exact output when the underlying product is nondeterministic; identify stable success signals instead.
+
+For a production demonstration, every mutating step needs prepared demo data, a stable visible success signal, and a practical reset or safe-skip path. If those safeguards do not exist, redesign the step as read-only, use an approved non-production environment, or ask the user how to proceed.
 
 ## Audience window
 
