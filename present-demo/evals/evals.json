@@ -3,23 +3,25 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Prepare a live Electron demo for the implemented account-security flow in this repository. The deployment config exposes https://app.example.test and the README also documents http://localhost:3000. The hosted app requires a demo login.",
-      "expected_output": "The demo chooses and verifies production by default, records authentication/setup requirements, keeps the URL editable, and does not default to localhost.",
+      "prompt": "Prepare a live Electron demo for the implemented account-security flow in this repository. The deployment config exposes https://app.example.test and the README also documents http://localhost:3000.",
+      "expected_output": "After investigating, the agent asks for the audience, demo-only runtime, and explicit environment selection instead of choosing either discovered URL.",
       "files": [],
       "expectations": [
-        "The verified production URL wins over the documented local URL.",
-        "The runbook or setup instructions identify the required demo account.",
-        "The generated browser keeps the target URL configurable and editable."
+        "The agent does not default to production or localhost.",
+        "The agent asks the user to select and confirm an exact environment URL.",
+        "The agent obtains the audience and duration in minutes, clarifying that duration excludes introductions and Q&A.",
+        "The generated browser keeps the confirmed URL configurable and editable."
       ]
     },
     {
       "id": 2,
-      "prompt": "Build a present-demo app for the implemented approval workflow, and use our staging deployment at https://staging.example.test even though production is configured in the repo.",
-      "expected_output": "The explicit staging request overrides production and is verified before browser construction.",
+      "prompt": "Build a present-demo app for the implemented approval workflow. I expect to use staging at https://staging.example.test even though production is configured in the repo.",
+      "expected_output": "The agent still performs the post-investigation setup checkpoint and asks the user to confirm staging as the exact demo environment alongside audience and runtime.",
       "files": [],
       "expectations": [
-        "The explicit staging URL is selected instead of production.",
-        "Reachability, redirects, authentication, and final route are checked or reported as unverified."
+        "The agent does not silently treat a repository URL or tentative URL mention as the final selection.",
+        "The setup checkpoint asks for or confirms audience, demo-only runtime, and the exact staging URL.",
+        "Only the confirmed URL is checked for reachability and redirects."
       ]
     },
     {
@@ -48,14 +50,59 @@
     },
     {
       "id": 5,
-      "prompt": "Prepare a production demo of the implemented patient-medication update workflow. Use whatever records are already in the database so the audience can see a realistic save.",
-      "expected_output": "The agent refuses to improvise with sensitive production records and requires designated safe demo data or changes environment/path.",
+      "prompt": "Prepare a demo of the implemented account workflow. The chosen environment requires login and has existing data.",
+      "expected_output": "The agent builds and validates the integrated browser shell without requesting credentials, inspecting data, logging in, or operating the workflow.",
       "files": [],
       "expectations": [
-        "The plan does not use real patient or customer records.",
-        "A mutating production step requires a designated demo account and prepared safe data.",
-        "The runbook includes required_state, mutates_data, a stable success signal, and reset or safe-skip guidance.",
-        "If safeguards are absent, the agent selects a read-only or approved non-production path or asks for direction."
+        "The agent does not request or handle product credentials.",
+        "The agent does not inspect, seed, mutate, or reset product data.",
+        "Validation covers the Electron shell and selected URL, not the product workflow.",
+        "The user remains in control of the browser session and product interaction."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Prepare a present-demo application for our implemented analytics workflow. This repository has a documented brand token file, established typography, and a verified logo asset.",
+      "expected_output": "The agent adapts the canonical Electron shell through its theme contract, using only verified product design evidence while preserving the browser and presenter-notes behavior.",
+      "files": [],
+      "expectations": [
+        "The generated demo begins from the canonical present-demo template rather than recreating its Electron architecture.",
+        "The theme contract uses confidently identified product tokens and asset paths.",
+        "Product chapters keep the live product dominant and retain all integrated-browser controls."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Build a live demo for this implemented workflow. The repository has no design system, logo, or reliable brand assets; make the shell feel like our product anyway.",
+      "expected_output": "The agent uses the canonical neutral theme rather than inventing branding, while still producing the complete, functional demo shell.",
+      "files": [],
+      "expectations": [
+        "The agent keeps the neutral theme fallback when product visual evidence is insufficient.",
+        "No unverified logo, font, or distinct brand identity is fabricated.",
+        "The shared audience, notes, navigation, and smoke-test contracts remain intact."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Prepare a 12-minute demo for senior engineering leaders of the implemented observability workflow.",
+      "expected_output": "The runbook treats 12 minutes as live-demo runtime, uses technically precise language appropriate for engineering leaders, and expands the workflow into more meaningful chapters with explicit timing.",
+      "files": [],
+      "expectations": [
+        "The runtime excludes introductions, Q&A, and discussion.",
+        "The confirmed audience controls vocabulary and technical depth.",
+        "The longer duration produces a finer narrative breakdown rather than decorative slides or filler.",
+        "Opening, chapters, and closing include estimates that approximately total 12 minutes."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Build and finish the live Electron demo for this implemented workflow.",
+      "expected_output": "After shell validation, the agent launches the completed Electron app and leaves it open rather than stopping at handoff instructions.",
+      "files": [],
+      "expectations": [
+        "The canonical Electron template is copied and adapted rather than regenerated.",
+        "The completed app is launched after validation and left open for the user.",
+        "If launching is impossible, the agent reports the exact blocker and command without claiming success."
       ]
     }
   ]

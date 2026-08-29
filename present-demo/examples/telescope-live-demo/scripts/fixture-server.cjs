@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+'use strict';
+
+const http = require('node:http');
+const port = 43173;
+const pages = {
+  '/': { eyebrow: 'WEEKLY PRODUCT HEALTH', title: 'Activation is steady. One segment needs attention.', body: 'New workspaces are reaching their first saved report 18% faster. Mid-market teams are falling behind after their first invitation.', metric: '72%', label: 'Activation this week', next: '/retention', nextLabel: 'Investigate retention' },
+  '/retention': { eyebrow: 'RETENTION SIGNAL', title: 'The drop begins after teammate invitation.', body: 'Teams that invite two or more collaborators in the first session retain at 1.8× the rate of teams that stop after setup.', metric: '1.8×', label: 'Retention lift', next: '/brief', nextLabel: 'Open decision brief' },
+  '/brief': { eyebrow: 'DECISION BRIEF', title: 'Make teammate invitation the first onboarding milestone.', body: 'Assign the onboarding team to test a guided invitation moment for mid-market workspaces next week.', metric: 'OWNER', label: 'Lifecycle team', next: '/', nextLabel: 'Return to overview' }
+};
+function page(data) { return `<!doctype html><html><head><meta charset="utf-8"><title>Telescope — ${data.eyebrow}</title><style>body{margin:0;background:#f4f8f7;color:#102e2f;font:18px/1.5 system-ui,sans-serif}main{max-width:1000px;margin:auto;padding:10vh 8vw}.eyebrow{color:#0d7a70;font-size:12px;font-weight:800;letter-spacing:.15em}h1{font:700 clamp(36px,6vw,72px)/1.04 Georgia,serif;max-width:800px}p{max-width:690px;color:#466367}.metric{margin:48px 0;padding:24px;background:#fff;border-radius:16px}.metric strong{font:700 64px/1 Georgia,serif;color:#0d7a70}.metric span{display:block;color:#6a8385}a{display:inline-block;background:#0d7a70;color:#fff;padding:12px 17px;border-radius:9px;text-decoration:none;font-weight:700}</style></head><body><main><p class="eyebrow">${data.eyebrow}</p><h1>${data.title}</h1><p>${data.body}</p><div class="metric"><strong>${data.metric}</strong><span>${data.label}</span></div><a href="${data.next}">${data.nextLabel} →</a></main></body></html>`; }
+http.createServer((request, response) => { const data = pages[new URL(request.url, `http://127.0.0.1:${port}`).pathname] || pages['/']; response.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' }); response.end(page(data)); }).listen(port, '127.0.0.1', () => console.log(`Telescope fixture: http://127.0.0.1:${port}`));
