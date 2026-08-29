@@ -13,6 +13,7 @@ This repository contains essential skills for day-to-day tasks, including learni
 | Skill | Description |
 |---|---|
 | [adaptive-tutor](./adaptive-tutor/) | Elite Adaptive Tutor AI designed to teach ANY concept effectively through a structured teaching loop. |
+| [present-demo](./present-demo/) | Generate polished Electron live product demos with synchronized audience and presenter experiences. |
 | [remotion-remocn-video](./remotion-remocn-video/) | Build production-grade programmatic videos with Remotion v4 and remocn components. Covers project setup, scene composition, animation choreography, visual design, and ad narrative structures. |
 
 ## Quickstart (30-second setup)
@@ -38,6 +39,9 @@ This repository focuses on skills that address common failure modes in AI-assist
 ### Video Production
 - **Remotion** - Create programmatic videos with Remotion v4 and remocn components
 
+### Product Demonstrations
+- **Present Demo** - Turn an implemented feature into a story-led Electron live demo with private presenter notes
+
 ## Installation
 
 Install via the [skills.sh](https://skills.sh) CLI — the easiest way to add skills to any agent:
@@ -50,6 +54,7 @@ Or install a single skill:
 
 ```bash
 npx skills add oracleot/skills/adaptive-tutor
+npx skills add oracleot/skills/present-demo
 npx skills add oracleot/skills/remotion-remocn-video
 ```
 
@@ -60,10 +65,12 @@ If you prefer to install manually, copy the skill folder into your agent's skill
 ```bash
 # OpenCode
 cp -r adaptive-tutor/ ~/.agents/skills/
+cp -r present-demo/ ~/.agents/skills/
 cp -r remotion-remocn-video/ ~/.agents/skills/
 
 # Claude Code
 cp -r adaptive-tutor/ ~/.claude/skills/
+cp -r present-demo/ ~/.claude/skills/
 cp -r remotion-remocn-video/ ~/.claude/skills/
 
 # Cursor / Windsurf / others
