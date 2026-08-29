@@ -6,12 +6,12 @@ const runbook = require('./shared/runbook.cjs');
 let audienceWindow;
 let notesWindow;
 let productView;
-let currentStep = -1;
+let presentation = { phase: 'opening', stepIndex: 0 };
 let browser = { status: 'loading', address: '', error: '' };
 // This tracked example deliberately targets its local fixture server.
 const initialUrl = process.env.DEMO_URL || 'http://127.0.0.1:43173/';
 
-const safeState = () => ({ currentStep, browser, theme, runbook });
+const safeState = () => ({ presentation, browser, theme, runbook });
 const broadcast = () => BrowserWindow.getAllWindows().forEach((window) => window.webContents.send('demo:state', safeState()));
 const isHttpUrl = (value) => { try { const url = new URL(value); return url.protocol === 'http:' || url.protocol === 'https:'; } catch { return false; } };
 
@@ -20,7 +20,7 @@ function resizeProduct(bounds) {
   const width = Math.max(0, Math.floor(bounds.width || 0));
   const height = Math.max(0, Math.floor(bounds.height || 0));
   productView.setBounds({ x: Math.max(0, Math.floor(bounds.x || 0)), y: Math.max(0, Math.floor(bounds.y || 0)), width, height });
-  productView.setVisible(currentStep >= 0 && width > 0 && height > 0);
+  productView.setVisible(presentation.phase === 'product' && width > 0 && height > 0);
 }
 
 function createProductView() {
@@ -59,8 +59,18 @@ function openNotes() {
 }
 
 ipcMain.handle('demo:get-state', () => safeState());
-ipcMain.handle('demo:previous', () => { currentStep = Math.max(-1, currentStep - 1); broadcast(); });
-ipcMain.handle('demo:next', () => { currentStep = Math.min(runbook.steps.length, currentStep + 1); broadcast(); });
+ipcMain.handle('demo:previous', () => {
+  if (presentation.phase === 'closing') presentation = { phase: 'product', stepIndex: Math.max(0, runbook.steps.length - 1) };
+  else if (presentation.phase === 'product' && presentation.stepIndex > 0) presentation = { phase: 'product', stepIndex: presentation.stepIndex - 1 };
+  else if (presentation.phase === 'product') presentation = { phase: 'opening', stepIndex: 0 };
+  broadcast();
+});
+ipcMain.handle('demo:next', () => {
+  if (presentation.phase === 'opening') presentation = runbook.steps.length ? { phase: 'product', stepIndex: 0 } : { phase: 'closing', stepIndex: 0 };
+  else if (presentation.phase === 'product' && presentation.stepIndex < runbook.steps.length - 1) presentation = { phase: 'product', stepIndex: presentation.stepIndex + 1 };
+  else if (presentation.phase === 'product') presentation = { phase: 'closing', stepIndex: Math.max(0, runbook.steps.length - 1) };
+  broadcast();
+});
 ipcMain.handle('demo:open-notes', () => openNotes());
 ipcMain.handle('demo:copy-prompt', (_event, value) => { if (typeof value === 'string' && value.length < 10000) clipboard.writeText(value); });
 ipcMain.on('demo:set-browser-bounds', (_event, bounds) => { if (bounds && typeof bounds === 'object') resizeProduct(bounds); });
