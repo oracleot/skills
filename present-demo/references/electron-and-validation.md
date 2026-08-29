@@ -43,7 +43,7 @@ References: [NavigationHistory](https://www.electronjs.org/docs/latest/api/navig
 
 ## Browser session and security
 
-For a user-changeable browser, use a named in-memory session by default. It preserves authentication and navigation during the presentation but discards session data when Electron exits. Use a persistent `persist:` partition only when cross-launch authentication is explicitly required and the navigation policy makes that safe.
+For a user-changeable browser, use a named in-memory session by default. It preserves authentication and navigation while the presentation is open but discards session data when Electron exits. The user controls any login and product state inside the integrated browser. Use a persistent `persist:` partition only when the user explicitly requests cross-launch browser state and the navigation policy makes that safe.
 
 Keep context isolation and sandboxing enabled, disable Node integration, and expose only narrow preload operations. Handle both permission checks and permission requests; deny permissions by default unless the demonstrated product genuinely needs a reviewed capability.
 
@@ -80,15 +80,15 @@ Use the strongest practical level available:
 
 1. Static checks: package scripts, types, linting, asset resolution, runbook integrity, and gitignore status.
 2. Electron integration checks: start the app and exercise both windows, IPC, navigation, and clipboard behavior.
-3. Product-flow checks: run the primary feature path against the intended local or hosted environment when credentials, services, and data are available.
+3. Selected-URL checks: confirm the user-selected environment opens in the integrated browser without operating its product workflow.
 
-Do not substitute source inspection for runtime validation when the environment can run the application. Do not claim product-flow validation when authentication, data, services, or GUI access prevented it.
+Do not substitute source inspection for runtime validation when the environment can run the application. Do not request credentials or manipulate product data for validation, and do not claim that the product workflow was exercised.
 
 At minimum, launch the generated Electron application and verify:
 
 - The audience window renders and the opening provides an obvious action to enter the live product
 - Product chapters show visible integrated-browser chrome
-- The production URL is selected by default unless the user requested another environment
+- The explicitly confirmed environment URL is selected; no discovered or hard-coded fallback URL can silently replace it
 - The URL field is editable and accepts a different valid HTTP or HTTPS URL
 - Address, loading state, and navigation history remain synchronized
 - Back, Forward, and Reload operate on the embedded browser
@@ -105,11 +105,11 @@ At minimum, launch the generated Electron application and verify:
 - Product assets resolve and uncertain branding is not fabricated
 - The output directory is the intended one and is ignored when expected
 
-Where possible, exercise the primary happy path and at least one fallback. Confirm expected results through stable visible signals.
+Do not exercise the primary product path as part of shell validation. The user controls authentication, data, and product interaction after launch.
 
 When GUI automation is unavailable, run a Chromium DevTools Protocol smoke test rather than falling back directly to source inspection. Adapt the bundled [`scripts/runtime-smoke.cjs`](../scripts/runtime-smoke.cjs) template and use its two local fixture origins plus offline/recovery cycle so the test does not depend on product credentials. Preserve the template's `data-demo-surface`, `data-demo-stage`, `data-demo-control`, `data-demo-current-step`, `data-demo-browser-status`, `data-demo-browser-error`, and `data-demo-retry-mode` hooks and remote-debugging setup in the generated app. These hooks form a small, stable testing interface; they must not expose privileged Electron capabilities to remote content. Pair the runtime recovery check with source verification that the Retry IPC handler calls `reloadIgnoringCache()` on the active product `WebContents`.
 
-If Electron itself cannot run, perform static checks and clearly provide a short manual test checklist for every remaining runtime item. Explain the constraint rather than implying that source inspection validated behavior.
+If Electron itself cannot run, perform static checks and clearly provide a short manual test checklist for every remaining runtime item. Explain the constraint rather than implying that source inspection validated behavior. Otherwise, launch the completed demo after validation and leave it open for the user.
 
 ## Gitignore safety
 
